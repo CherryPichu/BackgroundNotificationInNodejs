@@ -1,0 +1,25 @@
+{
+  "name": "backgroundnotificationinnodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CherryPichu/BackgroundNotificationInNodejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CherryPichu/BackgroundNotificationInNodejs/issues"
+  },
+  "homepage": "https://github.com/CherryPichu/BackgroundNotificationInNodejs#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3"
+  }
+}
