@@ -13,5 +13,6 @@
 <hr>
 
 #### 참고사항
-- Nodejs 환경에서 javascript 로 python 스크립틀르 실행하는 방법
+- Nodejs 환경에서 javascript 로 python 스크립트를 실행하는 방법
   - https://curryyou.tistory.com/225
+  
