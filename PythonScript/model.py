@@ -11,8 +11,8 @@ class Model :
     
     def __init__(self, userId) :
         self.userId = userId
-        self.lastCrawlingMN230 : int = 29863
-        self.lastCrawlingMN231 : int = 1732
+        self.lastCrawlingMN230 : int = 29927
+        self.lastCrawlingMN231 : int = 1757
         self.lastCrawlingMN233 : int = 1123
         self.lastCrawlingMN445 : int = 296
 
