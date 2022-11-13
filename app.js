@@ -2,18 +2,38 @@ const express = require('express')
 const app = express();
 const dotenv = require('dotenv')
 dotenv.config();
-const bodyParser = require("body-parser") // post 요청 파라미터 사용
+
+/**
+ * bodyparser - post 요청의 파라미터를 사용할 수 있게 도와줌.
+ */
+const bodyParser = require("body-parser") 
+app.use(bodyParser.urlencoded({ extended : false}))
+app.use(bodyParser.json());
+
+/**
+ * setting - session 설정
+ */
+require("./setting/session")(app)
+
+require("./setting/swagger/swagger")(app)
+
 app.set('port', 8084)
+
+const modelRouter = require("./routes/model")
+app.use("/query", modelRouter)
 
 
 
 app.get("/", async (req, res, next) => {
-    const result = require('child_process').spawn('python3', ['./PythonScript/test.py', 'userid'])
+
+    // 파이썬 스크립트 실행
+    const result = require('child_process').spawn('python3', ['./PythonScript/Crawling.py', 'userid'])
     await result.stdout.on('data', (data) => {
         res.send( data.toString() )
     })
 })
-"test in linux"
+
+
 
 
 

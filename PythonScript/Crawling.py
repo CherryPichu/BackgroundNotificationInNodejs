@@ -2,7 +2,7 @@ import sys
 from model import Model
 """
     요구사항
-    0. 한기대 서버에 보냄.
+    0. 한기대 서버로 부터 크롤링
     1. 새로운 결과 있다면 출력 : [title, url, Date] 
     2. 새로운 결과가 없다면 출력 : ["noResult"]
     3. 가장 최근 공지 고유번호 설정(변화가 없으면 안해도됨.)
