@@ -8,7 +8,7 @@ class Model :
     MN233 : 학사공지
     MN445 : 채용공지
     """
-    
+    """testt setestestestes"""
     def __init__(self, userId) :
         self.userId = userId
         self.lastCrawlingMN230 : int = 29927
