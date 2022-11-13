@@ -5,10 +5,14 @@ dotenv.config();
 const bodyParser = require("body-parser") // post 요청 파라미터 사용
 app.set('port', 8084)
 
-app.get("/", (req, res, next) => {
-    res.send("시작")
-})
 
+
+app.get("/", async (req, res, next) => {
+    const result = require('child_process').spawn('python3', ['./PythonScript/test.py', 'userid'])
+    await result.stdout.on('data', (data) => {
+        res.send( data.toString() )
+    })
+})
 
 
 
