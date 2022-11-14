@@ -29,8 +29,7 @@ const sql = require('./db.config.js')
  *  */
 
 const USER = function (user) { // 생성자
-        this.createAt = user.createAt;
-        this.userid = uesr.userid;
+        this.userid = user.userid;
             
         this.lastCrawlingMN230 = -1
         this.lastCrawlingMN231 = -1
@@ -76,10 +75,9 @@ USER.create  = (newUSER, result) =>{
     })
 }
 
-USER.findByUSER = (byUSER, result) => {
+USER.findByUserId = (userid, result) => {
     
-    let query = "SELECT * FROM USER ";
-    query = query + MakeWhereWord(byUSER) // Where 문을 조립
+    let query = "SELECT * FROM USER where userid =" + userid;
     // console.log(query) // 
     sql.query(query, (err, res) => {
         if(err){
@@ -87,7 +85,7 @@ USER.findByUSER = (byUSER, result) => {
             result(err, null)
             return;
         }
-        result(null , res[0]) // 찾은 유저 정보만 던져줌.
+        result(null , res) // 찾은 유저 정보만 던져줌.
     })
     
 

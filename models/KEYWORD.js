@@ -20,9 +20,9 @@ const sql = require('./db.config.js')
 
 
  const KEYWORD = function (KEYWORD) { // 생성자
-    this.createAt = KEYWORD.createAt;
-    this.userid = uesr.userid;
-
+    this.userid = KEYWORD.userid;
+    this.listcode = KEYWORD.listcode
+    this.keyword = KEYWORD.keyword
 }
 
 /* 참고
@@ -63,10 +63,9 @@ sql.query('insert into KEYWORD SET ? ', newKEYWORD, (err, res) => {
 })
 }
 
-KEYWORD.findByKEYWORD = (byKEYWORD, result) => {
+KEYWORD.findByUserId = (userid, result) => {
 
-let query = "SELECT * FROM KEYWORD ";
-query = query + MakeWhereWord(byKEYWORD) // Where 문을 조립
+let query = "SELECT * FROM KEYWORD where userid = " + userid;
 // console.log(query) // 
 sql.query(query, (err, res) => {
     if(err){
@@ -74,7 +73,7 @@ sql.query(query, (err, res) => {
         result(err, null)
         return;
     }
-    result(null , res[0]) // 찾은 유저 정보만 던져줌.
+    result(null , res) // 찾은 유저 정보만 던져줌.
 })
 
 

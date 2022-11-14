@@ -7,7 +7,7 @@ dotenv.config();
  * bodyparser - post 요청의 파라미터를 사용할 수 있게 도와줌.
  */
 const bodyParser = require("body-parser") 
-app.use(bodyParser.urlencoded({ extended : false}))
+app.use(bodyParser.urlencoded({ extended : true}))
 app.use(bodyParser.json());
 
 /**
