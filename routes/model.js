@@ -71,8 +71,9 @@ router.post("/USER", (req, res, next) => {
     userdb.create(newUser ,(err, content) => {
         if(err){
             res.status(404).send("에러")
+        }else{
+            res.json({ userid : newNumber })
         }
-        res.json({ userid : newNumber })
     })
 
 })
@@ -108,8 +109,9 @@ router.get("/KEYWORD", (req, res, next) => {
     keywordDb.findByUserId(req.query.userid, (err, content) => {
         if(err){
             res.status(404).send("에러")
+        }else{
+            res.send(content)
         }
-        res.send(content)
     })
 })
 
@@ -159,9 +161,60 @@ router.post("/KEYWORD", (req, res, next) => {
     keywordDb.create(newkeyword, (err, content) => {
         if(err) {
             res.status(404).send("에러")
-        }  
-        res.send("키워드 등록 완료")
+        }else{
+            res.send("키워드 등록 완료 => " + newkeyword.keyword)
+        }
+        
     })
+})
+
+
+/**
+ * @swagger
+ * paths :
+ *  /query/KEYWORD :
+ *      delete :
+ *          tags :
+ *              - KEYWORD
+ *          summary : 
+ *          description : userid = 4 AND keyword = '국가 근로' 에 해당하는 값을 제거
+ *          parameters :
+ *            - in : query
+ *              description : 고유 userid 를 입력
+ *              name : userid
+ *              schemas :
+ *                  type : string
+ *              required : true
+ *              default : 4
+ *            - in : query
+ *              description : 고유 userid 를 입력
+ *              name : keyword
+ *              schemas :
+ *                  type : string
+ *              required : true
+ *              default : 국가 근로
+ *          responses :
+ *              '200' :
+ *                  description : Suucessful 작동
+ *                  content :
+ *                      application/json :
+ *                          schema :
+ */
+router.delete("/KEYWORD", (req,res, next)  => {
+    const targetKeyword = keywordDb({
+        userid : req.query.userid,
+        keyword : req.query.keyword
+    })
+
+    keywordDb.removeByKeyword(req.query, (err, content) =>{
+        if(err) {
+            res.status(404).send("에러")
+        }else{
+            res.send("키워드 제거 성공  => userid = " + req.query.userid)
+        }
+        
+    } )
+
 })
 
 
