@@ -28,13 +28,25 @@ const sql = require('./db.config.js')
  *       
  *  */
 
+/**
+ * @param
+ * user.userid : Int
+ * @param
+ * lastCrawlingMN230 : Int
+ * @param
+ * lastCrawlingMN231 : Int
+ * @param
+ * lastCrawlingMN233 : Int
+ * @param
+ * lastCrawlingMN445 : Int
+ */
 const USER = function (user) { // 생성자
         this.userid = user.userid;
             
-        this.lastCrawlingMN230 = -1
-        this.lastCrawlingMN231 = -1
-        this.lastCrawlingMN233 = -1
-        this.lastCrawlingMN445 = -1
+        this.lastCrawlingMN230 = user.lastCrawlingMN230
+        this.lastCrawlingMN231 = user.lastCrawlingMN231
+        this.lastCrawlingMN233 = user.lastCrawlingMN233
+        this.lastCrawlingMN445 = user.lastCrawlingMN445
 }
 
 /* 참고
@@ -88,6 +100,24 @@ USER.findByUserId = (userid, result) => {
         result(null , res) // 찾은 유저 정보만 던져줌.
     })
     
+
+}
+
+USER.updateByUserid = (userInfo ,result ) => {
+
+    let query = "UPDATE USER SET ?"
+    sql.query(query,  userInfo, (err, res) => {
+        if(err){
+            console.log("error : ", err)
+            result(err, null)
+            return;
+        }
+
+        result(null, res)
+        // console.log("Created USER : ", {id : res.insertId, email : res.email, newUSER})
+    })
+
+
 
 }
 

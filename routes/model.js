@@ -13,7 +13,7 @@ dotenv.config();
  *      get :
  *          tags :
  *              - USER
- *          summary : 
+ *          summary : userid로 유저 정볼르 반환함.
  *          description : userid 4 에 해당하는 데이터를 가져옴
  *          parameters :
  *            - in : query
@@ -50,11 +50,11 @@ router.get("/USER", (req, res, next) => {
  *      post : 
  *          tags : 
  *              - USER
- *          summary : 새로운 유저 등록, 랜덤 번호 생성
+ *          summary : 새로운 유저 등록
+ *          description :  1~-100000 사이의 랜덤 userid 를 DB에 생성하고 값을 반환
  *          requsetBody :
  *              content :
  *                  application/json :
- *          
  *          responses :
  *              '200' :
  *                  description : 새로운 유저 등록 완료
@@ -79,6 +79,75 @@ router.post("/USER", (req, res, next) => {
 })
 
 
+/**
+ * @swagger
+ * paths : 
+ *  /query/USER :
+ *      put : 
+ *          tags : 
+ *              - USER
+ *          summary : userid로 lastCrawling 정보를 반환함.
+ *          description : uesrid가 4인 유저 정보의 lastCrawlingMN230 = 29928, lastCrawlinMN231 = 1757 로 설정
+ *          parameters :
+ *            - in : query
+ *              description : 고유 userid 를 입력
+ *              name : userid
+ *              schemas :
+ *                  type : string
+ *              required : true
+ *              default : 4
+ *            - in : query
+ *              description : 고유 userid 를 입력
+ *              name : lastCrawlingMN230
+ *              schemas : 
+ *                  type : string
+ *              required : true
+ *              default : 29928
+ *            - in : query
+ *              description : 고유 userid 를 입력
+ *              name : lastCrawlingMN231
+ *              schemas : 
+ *                  type : string
+ *              required : true
+ *              default : 1758
+ * 
+ *          responses :
+ *              '200' :
+ *                  description : 새로운 유저 등록 완료
+ *                  content :
+ *                      application/json :
+ *                          schema :
+ *                              userid :
+ *                                  description : 새로 생성된 유저 고유 번호
+ *                   
+ */
+ router.put("/USER", (req, res, next) => {
+    
+    if(req.query.userid == null){
+        res.status(404).send("userid 쿼리가 없음")
+    }
+
+    const targetUser = new userdb({
+        userid : req.query.userid,
+        lastCrawlingMN230 : req.query.userid,
+        lastCrawlingMN231 : req.query.lastCrawlingMN230,
+        lastCrawlingMN233 : req.query.lastCrawlingMN233,
+        lastCrawlingMN445 : req.query.lastCrawlingMN445 
+    })
+
+    userdb.updateByUserid(targetUser ,(err, content) => {
+        if(err){
+            res.status(404).send("에러")
+        }else{
+            res.json({ targetUser})
+        }
+    })
+
+
+
+})
+
+
 
 /**
  * @swagger
@@ -87,7 +156,7 @@ router.post("/USER", (req, res, next) => {
  *      get :
  *          tags :
  *              - KEYWORD
- *          summary : 
+ *          summary :  userid로 등록된 keyword를 반환 함.
  *          description : userid 4 에 해당하는 데이터를 가져옴
  *          parameters :
  *            - in : query
@@ -206,7 +275,7 @@ router.delete("/KEYWORD", (req,res, next)  => {
         keyword : req.query.keyword
     })
 
-    keywordDb.removeByKeyword(req.query, (err, content) =>{
+    keywordDb.removeByKeyword(targetKeyword, (err, content) =>{
         if(err) {
             res.status(404).send("에러")
         }else{
