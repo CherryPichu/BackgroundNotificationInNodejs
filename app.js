@@ -17,7 +17,7 @@ require("./setting/session")(app)
 
 require("./setting/swagger/swagger")(app)
 
-app.set('port', 8084)
+app.set('port', 8082)
 
 const modelRouter = require("./routes/model")
 app.use("/query", modelRouter)

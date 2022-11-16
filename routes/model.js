@@ -5,7 +5,6 @@ const dotenv = require('dotenv')
 dotenv.config();
 
 
-
 /**
  * @swagger
  * paths :
@@ -13,7 +12,7 @@ dotenv.config();
  *      get :
  *          tags :
  *              - USER
- *          summary : userid로 유저 정볼르 반환함.
+ *          summary : userid로 유저 정보를 반환함.
  *          description : userid 4 에 해당하는 데이터를 가져옴
  *          parameters :
  *            - in : query
@@ -31,7 +30,7 @@ dotenv.config();
  *                          schema :
  */
 router.get("/USER", (req, res, next) => {
-    console.log(req.query)
+
     const userid = req.query.userid 
     userdb.findByUserId(userid, (err, content) => {
         if(err){
@@ -86,8 +85,8 @@ router.post("/USER", (req, res, next) => {
  *      put : 
  *          tags : 
  *              - USER
- *          summary : userid로 lastCrawling 정보를 반환함.
- *          description : uesrid가 4인 유저 정보의 lastCrawlingMN230 = 29928, lastCrawlinMN231 = 1757 로 설정
+ *          summary : userid 값을 매개변수로 유저 정보를 수정함.
+ *          description : uesrid가 4인 유저 정보를 lastCrawlingMN230 = 29928, lastCrawlinMN231 = 1757 로 설정
  *          parameters :
  *            - in : query
  *              description : 고유 userid 를 입력
@@ -127,13 +126,17 @@ router.post("/USER", (req, res, next) => {
         res.status(404).send("userid 쿼리가 없음")
     }
 
-    const targetUser = new userdb({
-        userid : req.query.userid,
-        lastCrawlingMN230 : req.query.userid,
-        lastCrawlingMN231 : req.query.lastCrawlingMN230,
-        lastCrawlingMN233 : req.query.lastCrawlingMN233,
-        lastCrawlingMN445 : req.query.lastCrawlingMN445 
-    })
+    const targetUser = {}
+    if(req.query.userid != null)
+        targetUser.userid = req.query.userid
+    if(req.query.lastCrawlingMN230 != null)
+        targetUser.lastCrawlingMN230 = req.query.lastCrawlingMN230
+    if(req.query.lastCrawlingMN231 != null)
+        targetUser.lastCrawlingMN231 = req.query.lastCrawlingMN231
+    if(req.query.lastCrawlingMN233 != null)
+        targetUser.lastCrawlingMN233 = req.query.lastCrawlingMN233
+    if(req.query.lastCrawlingMN445  != null)
+        targetUser.lastCrawlingMN445  = req.query.lastCrawlingMN445 
 
     userdb.updateByUserid(targetUser ,(err, content) => {
         if(err){
@@ -143,6 +146,8 @@ router.post("/USER", (req, res, next) => {
         }
     })
 
+
+    
 
 
 })
@@ -270,7 +275,7 @@ router.post("/KEYWORD", (req, res, next) => {
  *                          schema :
  */
 router.delete("/KEYWORD", (req,res, next)  => {
-    const targetKeyword = keywordDb({
+    const targetKeyword = new keywordDb({
         userid : req.query.userid,
         keyword : req.query.keyword
     })
@@ -279,7 +284,7 @@ router.delete("/KEYWORD", (req,res, next)  => {
         if(err) {
             res.status(404).send("에러")
         }else{
-            res.send("키워드 제거 성공  => userid = " + req.query.userid)
+            res.send("키워드 제거 성공 ")
         }
         
     } )

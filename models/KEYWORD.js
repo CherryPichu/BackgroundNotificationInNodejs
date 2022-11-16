@@ -49,30 +49,30 @@ const MakeWhereWord = (byKEYWORD) => {
 return query
 }
 KEYWORD.create  = (newKEYWORD, result) =>{
-sql.query('insert into KEYWORD SET ? ', newKEYWORD, (err, res) => {
-    if(err){
-        console.log("error : ", err)
-        result(err, null)
-        return;
-    }
+    sql.query('insert into KEYWORD SET ? ', newKEYWORD, (err, res) => {
+        if(err){
+            console.log("error : ", err)
+            result(err, null)
+            return;
+        }
 
-    result(null, res)
-    // console.log("Created KEYWORD : ", {id : res.insertId, email : res.email, newKEYWORD})
-})
+        result(null, res)
+        // console.log("Created KEYWORD : ", {id : res.insertId, email : res.email, newKEYWORD})
+    })
 }
 
 KEYWORD.findByUserId = (userid, result) => {
 
-let query = "SELECT * FROM KEYWORD where userid = " + userid;
-// console.log(query) // 
-sql.query(query, (err, res) => {
-    if(err){
-        console.log("error : ", err);
-        result(err, null)
-        return;
-    }
-    result(null , res) // 찾은 유저 정보만 던져줌.
-})
+    let query = "SELECT * FROM KEYWORD where userid = " + userid;
+    // console.log(query) // 
+    sql.query(query, (err, res) => {
+        if(err){
+            console.log("error : ", err);
+            result(err, null)
+            return;
+        }
+        result(null , res) // 찾은 유저 정보만 던져줌.
+    })
 
 
 }
@@ -95,7 +95,7 @@ return 200;
 KEYWORD.removeByKeyword= (byKeyword, result) =>  {
 
     let query = "DELETE FROM KEYWORD where userid = " + byKeyword.userid + " and keyword = '" + byKeyword.keyword + "'"
-
+    
     sql.query(query, (err, res) => {
             if(err){
                 console.log("error : ", err);

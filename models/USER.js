@@ -29,16 +29,11 @@ const sql = require('./db.config.js')
  *  */
 
 /**
- * @param
- * user.userid : Int
- * @param
- * lastCrawlingMN230 : Int
- * @param
- * lastCrawlingMN231 : Int
- * @param
- * lastCrawlingMN233 : Int
- * @param
- * lastCrawlingMN445 : Int
+ * @param user.userid : Int
+ * @param lastCrawlingMN230 : Int
+ * @param lastCrawlingMN231 : Int
+ * @param lastCrawlingMN233 : Int
+ * @param lastCrawlingMN445 : Int
  */
 const USER = function (user) { // 생성자
         this.userid = user.userid;
@@ -106,7 +101,13 @@ USER.findByUserId = (userid, result) => {
 USER.updateByUserid = (userInfo ,result ) => {
 
     let query = "UPDATE USER SET ?"
-    sql.query(query,  userInfo, (err, res) => {
+    
+    
+    const userid = userInfo.userid
+    
+    
+    
+    sql.query( (sql.format(query, userInfo) + " WHERE userid= " +  userid ) , (err, res) => {
         if(err){
             console.log("error : ", err)
             result(err, null)
@@ -116,7 +117,7 @@ USER.updateByUserid = (userInfo ,result ) => {
         result(null, res)
         // console.log("Created USER : ", {id : res.insertId, email : res.email, newUSER})
     })
-
+   
 
 
 }
