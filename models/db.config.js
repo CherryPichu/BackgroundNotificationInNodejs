@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 // https://1-day-1-coding.tistory.com/51 참고
-const connect = mysql.createConnection({
+const connect = mysql.createPool({
     host : process.env.MYSQLHOST,
     user : process.env.MYSQLUSER,
     database : process.env.MYSQLDATABASE,
@@ -11,10 +11,10 @@ const connect = mysql.createConnection({
 })
 
 
-connect.connect(error => {
-    if(error) throw error;
-    // console.log("Successfully connected to the database")
-})
+// connect.connect(error => {
+//     if(error) throw error;
+//     // console.log("Successfully connected to the database")
+// })
 
 
 

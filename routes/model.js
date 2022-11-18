@@ -31,6 +31,11 @@ dotenv.config();
  */
 router.get("/USER", (req, res, next) => {
 
+    if(req.query.userid == null){
+        res.status(404).send("userid 쿼리가 없음")
+        return; // !! return  을 안주면 res 응답 이후 뒤에 코드가 실행되면서
+        // 서버가 멈춤 (22.11.18)
+    }
     const userid = req.query.userid 
     userdb.findByUserId(userid, (err, content) => {
         if(err){
@@ -65,8 +70,11 @@ router.get("/USER", (req, res, next) => {
  *                   
  */
 router.post("/USER", (req, res, next) => {
+
     const newNumber = Math.round(Math.random() * 100000)
     const newUser = new userdb({ userid : newNumber })
+
+    
     userdb.create(newUser ,(err, content) => {
         if(err){
             res.status(404).send("에러")
@@ -122,8 +130,10 @@ router.post("/USER", (req, res, next) => {
  */
  router.put("/USER", (req, res, next) => {
     
+
     if(req.query.userid == null){
         res.status(404).send("userid 쿼리가 없음")
+        return; 
     }
 
     const targetUser = {}
@@ -179,7 +189,13 @@ router.post("/USER", (req, res, next) => {
  *                          schema :
  */
 router.get("/KEYWORD", (req, res, next) => {
-    
+
+    if(req.query.userid == null){
+        res.status(404).send("userid 쿼리가 없음")
+        return; 
+    }
+
+
     keywordDb.findByUserId(req.query.userid, (err, content) => {
         if(err){
             res.status(404).send("에러")
@@ -226,6 +242,11 @@ router.get("/KEYWORD", (req, res, next) => {
  *                   
  */
 router.post("/KEYWORD", (req, res, next) => {
+
+    if(req.body.userid == null || req.body.listcode || req.body.keyword){
+        res.status(404).send("userid 또는 listcode 또는 keyword 가 없음")
+        return; 
+    }
 
     const newkeyword = new keywordDb( {
         userid: req.body.userid,
@@ -275,6 +296,12 @@ router.post("/KEYWORD", (req, res, next) => {
  *                          schema :
  */
 router.delete("/KEYWORD", (req,res, next)  => {
+
+    if( req.query.userid == null ||  req.query.keyword == null ){
+        res.status(404).send("userid 또는 keyword 가 없음")
+        return; 
+    }
+
     const targetKeyword = new keywordDb({
         userid : req.query.userid,
         keyword : req.query.keyword
