@@ -243,7 +243,7 @@ router.get("/KEYWORD", (req, res, next) => {
  */
 router.post("/KEYWORD", (req, res, next) => {
 
-    if(req.body.userid == null || req.body.listcode || req.body.keyword){
+    if(req.body.userid == null || req.body.listcode == null|| req.body.keyword ==null){
         res.status(404).send("userid 또는 listcode 또는 keyword 가 없음")
         return; 
     }
