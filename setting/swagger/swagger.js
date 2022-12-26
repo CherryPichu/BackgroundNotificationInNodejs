@@ -14,7 +14,7 @@ const options = {
         host: process.env.SERVER_URL,
         basePath: '/'
     },
-    apis: ['./routes/*.js', './models/*']
+    apis: ['./routes/*.js', './models/*', '/app'], 
 }
 
 const specs = swaggereJsdoc(options);

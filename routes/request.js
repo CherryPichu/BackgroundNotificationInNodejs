@@ -11,7 +11,29 @@ dotenv.config();
  * 4. 새로운 키워드가 없다면 noresult 로 응답한다.
  */
 
-
+/**
+ * @swagger
+ * paths :
+ *  /BackgroundRequest :
+ *      get :
+ *          tags :
+ *              - Notify
+ *          summary :  userid 를 매개변수로 새로운 공지를 받아옴.
+ *          parameters :
+ *            - in : query
+ *              description : 고유 userid 를 입력
+ *              name : userid
+ *              schemas :
+ *                  type : string
+ *              required : true
+ *              default : 62319
+ *          responses :
+ *              '200' :
+ *                  description : Suucessful 작동
+ *                  content :
+ *                      application/json :
+ *                          schema :
+ */
 
 
 

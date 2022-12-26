@@ -1,0 +1,104 @@
+<html>
+    <head><title>안드로이드 알라미 서버 테스터</title></head>
+    <body>
+
+            
+            <div class="wrapper" style="float: left; width:100%">
+                <span>알람On</span>
+                <input type="checkbox" id="switch" onclick="PostChange()">
+                <label for="switch" class="switch_label">
+                  <span class="onf_btn"></span>
+                </label>
+                <span>알람Off</span>
+            </div>
+            
+              
+
+
+    </body>
+</html>
+<!-- <%--Jquery 라이브러리--%> -->
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script>
+    //let status = parseInt({{switchstatus}}) // nunjucks 문법
+    
+    let status = 0 // nunjucks 문법
+
+  
+    function PostChange() {
+        status = status  ^ 1
+
+        $.ajax({
+            type: "GET",
+            timeout: 500,
+            url: "/postswitch?switchstatus=" + status,
+            success: (res) => {
+                console.log(res)
+            },
+            error: (res) => {
+                alert("회원가입 실패..")
+            }
+        })
+    }
+</script>
+
+<!--  소스 출처 : https://yeeiop.tistory.com/entry/HTML-CSS-on-off-switch%EC%8A%A4%EC%9C%84%EC%B9%98-%EB%A7%8C%EB%93%A4%EA%B8%B0 -->
+<style>
+    .wrapper {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        margin: 50px auto;
+      }
+      #switch {
+        position: absolute;
+        /* hidden */
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+      }
+      
+      .switch_label {
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+        width: 58px;
+        height: 28px;
+        background: #fff;
+        border: 2px solid #daa;
+        border-radius: 20px;
+        transition: 0.2s;
+      }
+      .switch_label:hover {
+        background: #efefef;
+      }
+      .onf_btn {
+        position: absolute;
+        top: 4px;
+        left: 3px;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 20px;
+        background: #daa;
+        transition: 0.2s;
+      }
+      
+      /* checking style */
+      #switch:checked+.switch_label {
+        background: #c44;
+        border: 2px solid #c44;
+      }
+      
+      #switch:checked+.switch_label:hover {
+        background: #e55;
+      }
+      
+      /* move */
+      #switch:checked+.switch_label .onf_btn {
+        left: 34px;
+        background: #fff;
+        box-shadow: 1px 2px 3px #00000020;
+      }
+</style>

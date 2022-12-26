@@ -72,7 +72,7 @@ router.get("/USER", (req, res, next) => {
 router.post("/USER", (req, res, next) => {
 
     const newNumber = Math.round(Math.random() * 100000)
-    const newUser = new userdb({ userid : newNumber })
+    const newUser = new userdb({ userid : newNumber , lastCrawlingMN230 : 1, lastCrawlingMN231 : 1, lastCrawlingMN233 : 1, lastCrawlingMN445 : 1})
 
     
     userdb.create(newUser ,(err, content) => {

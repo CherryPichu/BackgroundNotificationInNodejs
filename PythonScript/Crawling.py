@@ -16,9 +16,11 @@ scholarnotice = "https://www.koreatech.ac.kr/kor/CMS/NoticeMgr/scholarList.do?mC
 bachelornotice = 'https://www.koreatech.ac.kr/kor/CMS/NoticeMgr/bachelorList.do?mCode=MN233'
 employmentnotice = 'https://www.koreatech.ac.kr/kor/CMS/NoticeMgr/boardList10.do?mCode=MN445'
 noticelist = [generalnotice, scholarnotice, bachelornotice, employmentnotice]
+# noticelist = [generalnotice, scholarnotice]
 useridlink = 'http://uskawjdu.iptime.org:8084/query/USER?userid='
 userkeywordlink = 'http://uskawjdu.iptime.org:8084/query/KEYWORD?userid='
-userid = 4
+# useridlink = 'localhost:8084/query/USER?userid='
+# userkeywordlink = 'localhost:8084/query/KEYWORD?userid='
 
 def noticeNotification(userid):
     # 유저 공지별 키워드 정보 가져오기 # [{},{}] 형태
@@ -34,6 +36,7 @@ def noticeNotification(userid):
     
     # 공지별로 웹크롤링 하는 함수
     def noticeCrawling(noticeurl):
+        print("-----------------")
         # 공지사항 태그 가져오기
         res = req.urlopen(noticeurl).read()
         soup = BeautifulSoup(res, "html.parser")
@@ -59,8 +62,11 @@ def noticeNotification(userid):
                 # 유저 마지막 검색 공지사항 번호보다 크면 정보 가져옴
                 if int(number) > int(lastnum):
                     link = tr.find('a').attrs['href']
-                    name = tbody.find_all('span',title=re.compile(filldict[noticeurl[-5:]]))
-
+                    try :
+                        name = tbody.find_all('span',title=re.compile(filldict[noticeurl[-5:]]))
+                    except :
+                        return
+                    
                     # 공지사항이 MN230 일때 출력(MN230과 나머지 날짜정보의 태그 정보가 다름)
                     if noticeurl[-5:] == 'MN230':
                         nation = tr.select('td')[3].text
@@ -89,7 +95,9 @@ def getAvgs():
 
 
 if __name__=="__main__" :
-    userId = getAvgs()[0]
+    # print ( getAvgs() )
+    userid = int(getAvgs()[1])
+    # userid = 62319
     noticeNotification(userid)
     # python Crawling.py userid
 
